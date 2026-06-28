@@ -1,7 +1,7 @@
 package service;
 
 import dto.*;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import repository.UserRepository;
@@ -65,9 +65,8 @@ public class UserService {
     }
     //업데이트 만들기, readOnly 아님
     @Transactional
-    public UpdateUserResponse update() {
+    public UpdateUserResponse update(Long userId ,UpdateUserRequest request) {
         //dto로 받아야함 -> 어떤걸 업데이트 할지 모르니
-        public UpdateUserResponse update(Long userId ,UpdateUserRequest request) {
             //업데이트 할땐 더티 체킹을 쓴다.->트랜잭셔널 안에서 데이터 베이스를 갖다 온 영속성 , 영속 객체를 자동으로 업데이트 해주는 로직
             User user = userRepository.findById(userId).orElseThrow(// 가져오기 ,null 이면 던질게
                     () -> new IllegalStateException("없는 유저입니다.")
@@ -75,7 +74,7 @@ public class UserService {
             user.update(
                     request.getName(),
                     request.getEmail(),
-                    request.getAddress(),
+                    request.getAddress()
             );
             return new UpdateUserResponse(
                     user.getId(),
@@ -95,8 +94,6 @@ public class UserService {
                 throw new IllegalStateException("없는 유저입니다");
             }
             //유저가 있는 경우 -> 삭제 가능
-            userRepository.deleteById(userId); //userId 받아와서 삭제
+            userRepository.deleteById(userId); //userId 받아와서
         }
     }
-
-}

@@ -1,11 +1,32 @@
 package Controller;
 
+import dto.CreateUserRequest;
+import dto.CreateUserResponse;
+import dto.GetOneUserResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import service.UserService;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    @PostMapping
+    public CreateUserResponse createUser(@RequestBody CreateUserRequest request) {
+        return userService.save(request);
+    }
+    @GetMapping("/users/{userId}") //단 건 조회는 패스베리어블로 유저아이디를 받아와야 함.
+    public GetOneUserResponse getOneUser(@PathVariable Long userId){
+        return userService.getOne(userId); // 타입이 똑같아서 리턴 바로 해주기
+    }
+    @GetMapping("/uesrs")
+    public List<GetOneUserResponse> getAllUsers(){
+        //파라미터가 필요없다 -> 전체 조회라서
+        return userService.getAll();
+    }
 }

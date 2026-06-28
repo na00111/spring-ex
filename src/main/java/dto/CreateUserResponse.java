@@ -36,18 +36,7 @@ public class GetUserResponse {
         this.address = address;
     }
 }
-@Transactional(readOnly = true)
-public List<GetUserResponse> getAll() {
-    List<com.example.ex1.entity.User> users = userRepository.findAll();
-    List<GetUserResponse> dtos = new ArrayList<>();
 
-    for (com.example.ex1.entity.User user : users) {
-        GetUserResponse dto = new GetUserResponse(
-                user.getId(), user.getName(), user.getEmail(), user.getAddress()
-        );
-        dtos.add(dto);
-    }
-    return dtos;
 }
 
 

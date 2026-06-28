@@ -30,4 +30,8 @@ public class UserController {
             @RequestBody UpdateUserRequest request) {//뭘 업데이트 할껀지 body로 받아줘야 함
        return userService.update(userId, request); //파라미터 ->userId, request
     }
+    @DeleteMapping("/users/{userId}")
+    public  void delete(@PathVariable Long userId) {
+        userService.delete(userId);
+    }
 }

@@ -87,7 +87,16 @@ public class UserService {
         //delete
         @Transactional
         //delete 이기 때문에 딱히 리턴 안해도됨.
-                public
+        //유저의 아이디를 받아야 유저의 데이터를 삭제 가능 , 존재하는지 확인
+                public void delete(Long userId) {
+            boolean existence = userRepository.existsById(userId);
+            //유저가 없는 경우
+            if (!existence) {
+                throw new IllegalStateException("없는 유저입니다");
+            }
+            //유저가 있는 경우 -> 삭제 가능
+            userRepository.deleteById(userId); //userId 받아와서 삭제
+        }
     }
 
 }

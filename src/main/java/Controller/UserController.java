@@ -1,13 +1,8 @@
 package Controller;
 
-import dto.CreateUserRequest;
-import dto.CreateUserResponse;
-import dto.GetOneUserResponse;
+import dto.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import service.UserService;
 
 import java.util.List;
@@ -28,5 +23,11 @@ public class UserController {
     public List<GetOneUserResponse> getAllUsers(){
         //파라미터가 필요없다 -> 전체 조회라서
         return userService.getAll();
+    }
+    @PutMapping("/users/{userId}") //업데이트는 어떤 유저인지 알아야함.->pathvariable을 받아줘야 함
+    public UpdateUserResponse update(
+            @PathVariable Long userId,
+            @RequestBody UpdateUserRequest request) {//뭘 업데이트 할껀지 body로 받아줘야 함
+       return userService.update(userId, request); //파라미터 ->userId, request
     }
 }
